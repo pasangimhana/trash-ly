@@ -7,7 +7,7 @@
 const connection = require("../config/database");
 const verifyToken = require("../utils/verifyToken");
 const jwt = require("jsonwebtoken");
-const UserModel = require("../models/userModel");
+const UserModel = require("../models/Models");
 
 // when the user sends a get request for the leaderboard. It will take the user table and map users and their points to the leaderboard. Then it will return the leaderboard to the user in JSON format.
 function getLeaderboard(req, res) {
@@ -38,4 +38,4 @@ function getLeaderboard(req, res) {
   }
 }
 
-module.exports = updateLeaderboard;
+module.exports = { getLeaderboard };

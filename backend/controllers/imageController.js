@@ -36,7 +36,7 @@ function saveImage(req, res) {
 
             const image = new ImageModel(imageId, userId, category, latitude, longitude, date);
 
-            const query = "INSERT INTO Images (image_id, user_id, category, latitude, longitude, date) VALUES (?, ?, ?, ?, ?, ?)";
+            const query = "INSERT INTO Images (image_id, userid, category, latitude, longitude, date) VALUES (?, ?, ?, ?, ?, ?)";
             const values = [image.imageId, image.userId, image.category, image.latitude, image.longitude, image.date];
 
             connection.query(query, values, (error, results, fields) => {

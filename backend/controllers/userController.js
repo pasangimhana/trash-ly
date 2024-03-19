@@ -48,6 +48,10 @@ function createUser(req, res) {
 
             const user = new UserModel(user_id, username, email, role);
 
+            user.points = 0;
+
+            console.log(user);
+
             // check if user exists
             connection.query('SELECT * FROM User WHERE userid = ?', [user_id], (error, results) => {
                 if (error) throw error;
