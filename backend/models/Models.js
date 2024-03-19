@@ -16,16 +16,20 @@ class UserModel {
     }
 }
 
-class CleanupEventModel {
-    eventId;
+class EventModel {
+    eventid;
     title;
     location;
+    longitude;
+    latitude;
     date;
     organizerId;
 
-    constructor(title, location, date, organizerId) {
+    constructor(title, location, longitude, latitude, date, organizerId) {
         this.title = title;
         this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.date = date;
         this.organizerId = organizerId;
     }
@@ -60,7 +64,7 @@ class EducationalContentModel {
 
 module.exports = {
     UserModel,
-    CleanupEventModel,
+    EventModel,
     ImageModel,
     EducationalContentModel
 };
