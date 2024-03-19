@@ -4,10 +4,12 @@ import styles from '../components/Styles.js';
 import NavigationBar from '../components/NavigationBar.js';
 import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 export default function Image({ navigation }) {
+  const navigator = useNavigation();
   // Function to handle the image picking
   const handlePickImage = async () => {
     // Request camera permissions
@@ -39,9 +41,11 @@ export default function Image({ navigation }) {
 
       <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10, paddingBottom: 200 }}>
         <View>
+          <TouchableOpacity onPress={() => navigator.navigate("Leaderboard")}>
           <View style={styles.imageButton}>
             <Text style={styles.buttonText}>Rank</Text>
           </View>
+          </TouchableOpacity>
           <View style={styles.imageButton}>
             <Text style={styles.buttonText}></Text>
           </View>

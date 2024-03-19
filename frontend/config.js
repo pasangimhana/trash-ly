@@ -13,6 +13,12 @@
 import { initializeApp } from 'firebase/app';
 //import { getFirestore } from 'firebase/firestore'; // for data storage in database
 import { getAuth, signOut} from 'firebase/auth'; //needed to do firebase authentication
+import * as SecureStore from 'expo-secure-store';
+
+
+
+const BASE_URL = "http://192.168.8.176:3000/";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDK0_SzaD4eVPykfVLXF-u0naa62ZgWkhk",
@@ -26,7 +32,9 @@ const firebaseConfig = {
 const logoutUser = async () => {
   try {
     await signOut(firebaseAuth);
-    console.log('User logged out successfully');
+    await SecureStore.deleteItemAsync('idToken').then(() => {
+      console.log('User logged out successfully');
+    })
   } catch (error) {
     console.error('Logout failed', error.message);
   }
@@ -37,7 +45,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth =getAuth(firebaseApp);
 //const firestoreDB = getFirestore(firebaseApp);
 
-export { firebaseApp , firebaseAuth, logoutUser};
+export { firebaseApp , firebaseAuth, logoutUser, BASE_URL};
 
 
 

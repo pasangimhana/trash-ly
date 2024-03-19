@@ -7,12 +7,14 @@ import styles from '../components/Styles.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 
-import { firebaseApp, firebaseAuth } from '../config';
+import { BASE_URL, firebaseApp, firebaseAuth } from '../config';
 //importing keyboard avoiding view
 import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper.js';
 import { useNavigation } from '@react-navigation/native';
 import{Octicons, Ionicons} from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 const MyTextInput = ({ label, icon, placeholder, placeholderTextColor, onChangeText,  value, keyboardType, autoCapitalize, isPassword, hidePassword, setHidePassword}) => {
   return (
@@ -54,8 +56,6 @@ const SignUpInputField = ({ isOrganiser, name, email, password, confirmPassword,
         placeholderTextColor='#d3d3d3'
         value={name}
         onChangeText={(text) => setName(text)}
-        
-        
       />
     ) : (
       <MyTextInput
@@ -65,28 +65,18 @@ const SignUpInputField = ({ isOrganiser, name, email, password, confirmPassword,
         placeholderTextColor='#d3d3d3'
         value={name}
         onChangeText={(text) => setName(text)}
-        
-        
-
       />
     )}
-    
-
       <MyTextInput
         label="Email Address"
         icon="mail"
         placeholder="Email"
         placeholderTextColor='#d3d3d3'
         value={email}
-        onChangeText={(text) => setEmail(text)}
-       
-       
+        onChangeText={(text) => setEmail(text)}       
         keyboardType="email-address" //indicates that the input is expected to be an email address.
         autoCapitalize='none'
       />
-      
-
-
       <MyTextInput
         label="Password"
         icon="lock"
@@ -101,7 +91,6 @@ const SignUpInputField = ({ isOrganiser, name, email, password, confirmPassword,
         hidePassword={hidePassword}
         setHidePassword={setHidePassword}
       />
-
       <MyTextInput
         label="Confirm Password"
         icon="lock"
@@ -117,10 +106,8 @@ const SignUpInputField = ({ isOrganiser, name, email, password, confirmPassword,
         setHidePassword={setHidePassword}
       />
       </View>
-
   )
 }
-
 
 
 //each screen in our stack navigator will receive an navigation object as a property. This object allows navigation between the screens
@@ -143,13 +130,28 @@ export default function SignUp(){
       const auth=firebaseAuth;
       const userCredential=await createUserWithEmailAndPassword(auth, email, password);
       const user=userCredential.user;
+      const idToken = await user.getIdToken();
+      
+      const response = await axios.post(BASE_URL + 'user/create', {
+          username: name,
+          email: email,
+          role: isOrganiser ? 'organiser' : 'community user',
+        }, {
+          headers: {
+            'Authorization': `Bearer ${idToken}`
+          }
+        });
+        console.log(response.data);
       // Save user data to Firestore
       await setDoc(doc(firestore, 'users', user.uid), {
         email,
         password, // Note: You may want to avoid storing passwords directly and use proper authentication methods.
         name,
       });
-      navigation.navigate("Image");
+      
+      await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
+          console.log('Token stored successfully');
+
     } catch(error){
       alert("Sign in failed: "+error.message);
     }

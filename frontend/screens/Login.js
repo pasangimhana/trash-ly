@@ -10,6 +10,7 @@ import { firebaseAuth } from '../config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //importing keyboard avoiding view
 import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper.js';
+import * as SecureStore from 'expo-secure-store';
 
 
 const MyTextInput = ({ label, icon, placeholder, placeholderTextColor, onChangeText, value, keyboardType, autoCapitalize, isPassword, hidePassword, setHidePassword }) => {
@@ -113,16 +114,18 @@ export default function Login() {
 
   const loginUser = async (email, password) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate('Image');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const idToken = await user.getIdToken();
+      console.log(idToken);
+      
+          await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
+          console.log('Token stored successfully');
+
     } catch (error) {
       alert('Log in failed: ' + error.message);
     }
   };
-
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#69c9ab' }}>
