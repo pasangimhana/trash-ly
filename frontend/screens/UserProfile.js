@@ -24,20 +24,15 @@ export default function UserProfile({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get(BASE_URL + 'user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    const getUser = async (token) => {
+      const response1 = await axios.get(BASE_URL + 'leaderboard', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
   
-        console.log(response.data);
-      } catch (error) {
-        console.error('Error getting user:', error.message);
-      }
+      console.log(response1.data);
     };
-  
     getUser();
   }, []);
 

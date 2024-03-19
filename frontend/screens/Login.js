@@ -119,8 +119,8 @@ export default function Login() {
       const idToken = await user.getIdToken();
       console.log(idToken);
       
-          await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
-          console.log('Token stored successfully');
+      await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
+      console.log('Token stored successfully');
 
     } catch (error) {
       alert('Log in failed: ' + error.message);

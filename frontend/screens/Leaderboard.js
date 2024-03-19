@@ -27,30 +27,19 @@ export default function Leaderboard({ navigation }) {
     retrieveToken();
   }, []);
 
-  const getLeaderboard = async () => {
-    try {
-      const response = await axios.get(BASE_URL + 'leaderboard', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.log("token " + token);
-      if (error.response && error.response.status === 401) {
-        console.error('Unauthorized access. Token might be invalid or expired.');
-        // Handle the 401 error (e.g., refresh token, log out the user)
-      } else {
-        console.error('Error getting leaderboard:', error.message);
-      }
-    }
-  };
-  
   useEffect(() => {
-    if (token) {
-      getLeaderboard();
-    }
-  }, [token]);
+      console.log('Token:', token);
+      const getLeaderboard = async (token) => {
+        const response1 = await axios.get(BASE_URL + 'leaderboard', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        console.log(response1.data);
+      };
+    getLeaderboard();
+    }, [token]);
   
   return (
     <View style={styles.container}>

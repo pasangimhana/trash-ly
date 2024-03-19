@@ -142,6 +142,7 @@ export default function SignUp(){
           }
         });
         console.log(response.data);
+
       // Save user data to Firestore
       await setDoc(doc(firestore, 'users', user.uid), {
         email,
@@ -150,7 +151,7 @@ export default function SignUp(){
       });
       
       await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
-          console.log('Token stored successfully');
+      console.log('Token stored successfully');
 
     } catch(error){
       alert("Sign in failed: "+error.message);
