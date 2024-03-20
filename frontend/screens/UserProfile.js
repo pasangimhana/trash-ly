@@ -34,9 +34,10 @@ export default function UserProfile({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles1.container}>
       <View style={styles.screenTitleContainer}>
         <Text style={styles.appTitle}>TRASH.LY</Text>
+        <Text style={styles.subTitle}>User Profile</Text>
         <View>
       {user ? (
         <View style={styles1.userCard}>
@@ -73,7 +74,8 @@ export default function UserProfile({ navigation }) {
 const styles1 = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#69c9ab'
+    backgroundColor: '#69c9ab',
+    alignItems: 'center',
   },
   userCard: {
     backgroundColor: '#f5f5f5',

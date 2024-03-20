@@ -53,6 +53,7 @@ export default function Leaderboard({ navigation, data = []}) {
     <View style={styles1.container}>
       <View style={{paddingTop:50, alignItems: 'center'}}>
         <Text style={styles.appTitle}>TRASH.LY</Text>
+        <Text style={styles.subTitle}>Leaderboard</Text>
       </View>
       <ScrollView flex={0.5}>
       {user ? (
