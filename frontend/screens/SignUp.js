@@ -144,11 +144,11 @@ export default function SignUp(){
         console.log(response.data);
 
       // Save user data to Firestore
-      await setDoc(doc(firestore, 'users', user.uid), {
-        email,
-        password, // Note: You may want to avoid storing passwords directly and use proper authentication methods.
-        name,
-      });
+      // await setDoc(doc(firestore, 'users', user.uid), {
+      //   email,
+      //   password, // Note: You may want to avoid storing passwords directly and use proper authentication methods.
+      //   name,
+      // });
       
       await SecureStore.setItemAsync('idToken', idToken).then(() => {navigation.navigate('Image')});
       console.log('Token stored successfully');
